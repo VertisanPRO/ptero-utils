@@ -1,0 +1,30 @@
+{
+    "name": "wemx/utils",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "description": "Some utilities for Pterodactyl. Mainly used in Vertisan products",
+    "homepage": "https://github.com/VertisanPRO/ptero-utils#readme",
+    "type": "library",
+    "authors": [
+        {
+            "name": "PadowYT2",
+            "email": "me@padow.ru",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "laravel/prompts": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wemx\\Utils\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wemx\\Utils\\CommandsServiceProvider"
+            ]
+        }
+    }
+}

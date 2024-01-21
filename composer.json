@@ -2,6 +2,7 @@
     "name": "wemx/utils",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "license": "UNLICENSE",
     "description": "Some utilities for Pterodactyl. Mainly used in Vertisan products",
     "homepage": "https://github.com/VertisanPRO/ptero-utils#readme",
     "type": "library",

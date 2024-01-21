@@ -5,7 +5,7 @@ namespace Wemx\Quantum\Commands;
 use Illuminate\Console\Command;
 use function Laravel\Prompts\{progress, spin};
 
-class BuildCommand extends Command
+class UtilsBuildCommand extends Command
 {
     protected $description = 'Install NodeJS, Yarn and Build assets';
 

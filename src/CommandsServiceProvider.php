@@ -3,14 +3,14 @@
 namespace Wemx\Utils;
 
 use Illuminate\Support\ServiceProvider;
-use Wemx\Utils\Commands\BuildCommand;
+use Wemx\Utils\Commands\UtilsBuildCommand;
 
 class CommandsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         $this->commands([
-            BuildCommand::class,
+            UtilsBuildCommand::class,
         ]);
     }
 }

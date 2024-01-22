@@ -64,7 +64,9 @@ class BuildCommand extends Command
         $code = null;
         exec('node -v 2>/dev/null', $output, $code);
 
-        ($code === 0 && version_compare(trim($output[0]), 'v17', '>'))
+        info($code);
+
+        ($code === 0)
             ? putenv('NODE_OPTIONS=--openssl-legacy-provider')
             : $this->installNodeJS();
     }

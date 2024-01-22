@@ -102,13 +102,12 @@ class UpdateCommand extends Command
         spin(
             function () {
                 exec('chmod -R 755 storage/* bootstrap/cache');
-                usleep(800);
+                sleep(1);
                 return;
             },
             'Setting correct permissions'
         );
 
-        sleep(1);
         $progress->advance();
 
         spin(

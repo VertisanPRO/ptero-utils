@@ -4,7 +4,7 @@ namespace Wemx\Utils\Commands;
 
 use Illuminate\Console\Command;
 use Laravel\Prompts\Progress;
-use function Laravel\Prompts\{alert, progress, spin};
+use function Laravel\Prompts\{note, progress, spin};
 
 class BuildCommand extends Command
 {
@@ -24,7 +24,7 @@ class BuildCommand extends Command
         $progress->advance();
 
         spin(
-            fn() => exec(($this->isRHEL() ? 'yum' : 'apt') . ' remove -y -q cmdtest'),
+            fn() => exec(($this->isRHEL() ? 'yum' : 'apt') . ' remove -y ' . ($this->isRHEL() ? '-q' : '-qqq') . ' cmdtest'),
             'Removing cmdtest'
         );
 
@@ -38,9 +38,24 @@ class BuildCommand extends Command
         $progress->advance();
 
         spin(
-            fn() => $this->buildAssets($progress),
+            function ($progress) {
+                $code = null;
+                exec('yarn -v 2>/dev/null', $output, $code);
+
+                if ($code !== 0)
+                    exec('npm install -g yarn');
+
+                exec('yarn --silent');
+            },
             'Installing Yarn'
         );
+
+        $progress->finish();
+
+        note('Building assets (this may take a while)');
+        $this->option('progress')
+            ? exec('yarn build:production --progress')
+            : exec('yarn build:production');
     }
 
     private function configureNodeJS(): void
@@ -66,24 +81,6 @@ class BuildCommand extends Command
             exec('apt update -qqq');
             exec('apt install -y -qqq nodejs');
         }
-    }
-
-    private function buildAssets(Progress $progress): void
-    {
-        $code = null;
-        exec('yarn -v 2>/dev/null', $output, $code);
-
-        if ($code !== 0)
-            exec('npm install -g yarn');
-
-        exec('yarn --silent');
-
-        $progress->finish();
-
-        alert('Building assets (this may take a while)');
-        $this->option('progress')
-            ? exec('yarn build:production --progress')
-            : exec('yarn build:production');
     }
 
     private function isRHEL(): bool

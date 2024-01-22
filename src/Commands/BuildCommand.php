@@ -19,9 +19,8 @@ class BuildCommand extends Command
 
     public function handle(): void
     {
-        $progress = progress(label: 'Installing NodeJS, Yarn and Building assets', steps: 3);
+        $progress = progress(label: 'Installing NodeJS, Yarn and Building assets', steps: 2);
         $progress->start();
-        $progress->advance();
 
         spin(
             fn() => exec(($this->isRHEL() ? 'yum' : 'apt-get') . ' remove -y -q cmdtest'),
@@ -35,6 +34,7 @@ class BuildCommand extends Command
             'Installing and configuring NodeJS'
         );
 
+        usleep(800);
         $progress->advance();
 
         spin(
@@ -50,6 +50,7 @@ class BuildCommand extends Command
             'Installing Yarn'
         );
 
+        usleep(800);
         $progress->finish();
 
         info('Building assets (this may take a while)');

@@ -150,7 +150,7 @@ class UpdateCommand extends Command
 
         if (!$this->option('force') && !file_exists('vendor/wemx/utils')) {
             $confirm = confirm(
-                label: 'Would you like to keep <fg=green>wemx/utils</> <fg=blue>back?</>',
+                label: 'Would you like to keep <fg=green>wemx/utils</><fg=blue>?</>',
                 default: true,
             );
 

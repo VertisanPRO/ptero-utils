@@ -97,6 +97,7 @@ class UpdateCommand extends Command
         );
 
         usleep(800);
+        $progress->advance();
 
         spin(
             fn() => exec('chmod -R 755 storage/* bootstrap/cache'),
@@ -118,8 +119,6 @@ class UpdateCommand extends Command
             fn() => exec('composer install --no-dev --optimize-autoloader -n -q'),
             'Installing composer dependencies'
         );
-
-        $progress->advance();
 
         $version = $this->option('utils-version');
         spin(
@@ -162,7 +161,10 @@ class UpdateCommand extends Command
             );
 
             if (!$confirm)
-                exec('composer remove wemx/utils');
+                spin(
+                    fn() => exec('composer remove -n -q wemx/utils'),
+                    'Removing <fg=green>wemx/utils</>'
+                );
         }
 
         return;

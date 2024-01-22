@@ -24,6 +24,8 @@ class UpdateCommand extends Command
         $groupDetails = posix_getgrgid(filegroup('public'));
         $group = $groupDetails['name'] ?? 'www-data';
 
+        $remove = true;
+
         if (!$this->option('force')) {
             $confirm = confirm(
                 label: "Your webserver user has been detected as <fg=green>[{$user}]:</> is this correct?",

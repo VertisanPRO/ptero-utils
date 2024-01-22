@@ -47,7 +47,7 @@ class BuildCommand extends Command
 
                 exec('yarn --silent');
 
-                usleep(800);
+                sleep(1);
             },
             'Installing Yarn'
         );

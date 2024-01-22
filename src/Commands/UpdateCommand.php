@@ -83,7 +83,7 @@ class UpdateCommand extends Command
             }
         }
 
-        $progress = progress(label: 'Uninstalling Quantum', steps: 5);
+        $progress = progress(label: 'Updating the Panel', steps: 5);
         $progress->start();
 
         if ($remove)
@@ -94,8 +94,6 @@ class UpdateCommand extends Command
             'Downloading latest stable version for Pterodactyl'
         );
 
-        $version = $this->option('utils-version');
-        exec('composer require -q wemx/utils' . $version && " {$version}");
         usleep(800);
 
         spin(
@@ -118,6 +116,9 @@ class UpdateCommand extends Command
             fn() => exec('composer install --no-dev --optimize-autoloader -n -q'),
             'Installing composer dependencies'
         );
+
+        $version = $this->option('utils-version');
+        exec('composer require -q wemx/utils' . $version && " {$version}");
 
         $progress->advance();
 

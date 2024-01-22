@@ -9,7 +9,7 @@ class UpdateCommand extends Command
 {
     protected $description = 'Update the Panel';
 
-    protected $signature = 'utils:update {--force}';
+    protected $signature = 'utils:update {--force} {--utils-version=}';
 
     public function __construct()
     {
@@ -94,7 +94,8 @@ class UpdateCommand extends Command
             'Downloading latest stable version for Pterodactyl'
         );
 
-        exec('composer require wemx/utils -q');
+        $version = $this->option('utils-version');
+        exec('composer require -q wemx/utils' . $version && " {$version}");
         usleep(800);
 
         spin(

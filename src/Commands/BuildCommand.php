@@ -46,11 +46,12 @@ class BuildCommand extends Command
                     exec('npm install -g yarn');
 
                 exec('yarn --silent');
+
+                usleep(800);
             },
             'Installing Yarn'
         );
 
-        usleep(800);
         $progress->finish();
 
         info('Building assets (this may take a while)');

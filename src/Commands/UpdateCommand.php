@@ -85,11 +85,11 @@ class UpdateCommand extends Command
             }
         }
 
-        $progress = progress(label: 'Updating the Panel', steps: 6);
-        $progress->start();
-
         if ($remove)
             exec('rm -rf resources/scripts');
+
+        $progress = progress(label: 'Updating the Panel', steps: 6);
+        $progress->start();
 
         spin(
             fn() => exec('curl -s -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv'),
@@ -104,7 +104,7 @@ class UpdateCommand extends Command
             'Setting correct permissions'
         );
 
-        usleep(800);
+        sleep(1);
         $progress->advance();
 
         spin(

@@ -38,7 +38,7 @@ class BuildCommand extends Command
         $progress->advance();
 
         spin(
-            function ($progress) {
+            function () {
                 $code = null;
                 exec('yarn -v 2>/dev/null', $output, $code);
 
@@ -64,10 +64,8 @@ class BuildCommand extends Command
         $code = null;
         exec('node -v 2>/dev/null', $output, $code);
 
-        info($code);
-
         ($code === 0)
-            ? putenv('NODE_OPTIONS=--openssl-legacy-provider')
+            ? (version_compare(trim($output[0]), 'v17', '>') && putenv('NODE_OPTIONS=--openssl-legacy-provider'))
             : $this->installNodeJS();
     }
 

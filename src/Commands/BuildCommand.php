@@ -4,7 +4,7 @@ namespace Wemx\Utils\Commands;
 
 use Illuminate\Console\Command;
 use Laravel\Prompts\Progress;
-use function Laravel\Prompts\{note, progress, spin};
+use function Laravel\Prompts\{info, progress, spin};
 
 class BuildCommand extends Command
 {
@@ -24,7 +24,7 @@ class BuildCommand extends Command
         $progress->advance();
 
         spin(
-            fn() => exec(($this->isRHEL() ? 'yum' : 'apt') . ' remove -y ' . ($this->isRHEL() ? '-q' : '-qqq') . ' cmdtest'),
+            fn() => exec(($this->isRHEL() ? 'yum' : 'apt-get') . ' remove -y -q cmdtest'),
             'Removing cmdtest'
         );
 
@@ -52,7 +52,7 @@ class BuildCommand extends Command
 
         $progress->finish();
 
-        note('Building assets (this may take a while)');
+        info('Building assets (this may take a while)');
         $this->option('progress')
             ? exec('yarn build:production --progress')
             : exec('yarn build:production');
@@ -78,8 +78,8 @@ class BuildCommand extends Command
             exec('mkdir -p /etc/apt/keyrings');
             exec('curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg');
             exec('echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list > /dev/null');
-            exec('apt update -qqq');
-            exec('apt install -y -qqq nodejs');
+            exec('apt-get update -qqq');
+            exec('apt-get install -y -qqq nodejs');
         }
     }
 

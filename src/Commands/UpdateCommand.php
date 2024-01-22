@@ -28,7 +28,7 @@ class UpdateCommand extends Command
 
         if (!$this->option('force')) {
             $confirm = confirm(
-                label: "Your webserver user has been detected as <fg=green>[{$user}]:</> is this correct?",
+                label: "Your webserver user has been detected as <fg=green>[{$user}]</>: is this correct?",
                 default: true,
             );
 
@@ -49,7 +49,7 @@ class UpdateCommand extends Command
             }
 
             $confirm = confirm(
-                label: "Your webserver group has been detected as <fg=green>[{$group}]:</> is this correct?",
+                label: "Your webserver group has been detected as <fg=green>[{$group}]</>: is this correct?",
                 default: true,
             );
 
@@ -70,7 +70,7 @@ class UpdateCommand extends Command
             }
 
             $remove = confirm(
-                label: 'Would you like to remove the <fg=red>resources/scripts</> <fg=blue>folder? It is useful for removing all third-party changes.</>',
+                label: 'Would you like to remove the <fg=red>resources/scripts</> folder? It is useful for removing all third-party changes.',
                 default: false,
             );
 
@@ -160,11 +160,13 @@ class UpdateCommand extends Command
                 default: true,
             );
 
-            if (!$confirm)
+            if (!$confirm) {
                 spin(
                     fn() => exec('composer remove -n -q wemx/utils'),
                     'Removing <fg=green>wemx/utils</>'
                 );
+                $this->alert('<fg=green>wemx/utils</> was successfully removed');
+            }
         }
 
         return;

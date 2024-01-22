@@ -3,7 +3,8 @@
 namespace Wemx\Utils\Commands;
 
 use Illuminate\Console\Command;
-use function Laravel\Prompts\{progress, spin};
+use Laravel\Prompts\Progress;
+use function Laravel\Prompts\{alert, progress, spin};
 
 class BuildCommand extends Command
 {
@@ -37,11 +38,9 @@ class BuildCommand extends Command
         $progress->advance();
 
         spin(
-            fn() => $this->buildAssets(),
-            'Building assets (this may take a while)'
+            fn() => $this->buildAssets($progress),
+            'Installing Yarn'
         );
-
-        $progress->finish();
     }
 
     private function configureNodeJS(): void
@@ -58,18 +57,18 @@ class BuildCommand extends Command
     private function installNodeJS(): void
     {
         if ($this->isRHEL()) {
-            system('yum install -y -q https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm');
-            system('yum install -y -q nodejs');
+            exec('yum install -y -q https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm');
+            exec('yum install -y -q nodejs');
         } else {
             exec('mkdir -p /etc/apt/keyrings');
             exec('curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg');
             exec('echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list > /dev/null');
-            system('apt update -qqq');
-            system('apt install -y -qqq nodejs');
+            exec('apt update -qqq');
+            exec('apt install -y -qqq nodejs');
         }
     }
 
-    private function buildAssets(): void
+    private function buildAssets(Progress $progress): void
     {
         $code = null;
         exec('yarn -v 2>/dev/null', $output, $code);
@@ -78,9 +77,13 @@ class BuildCommand extends Command
             exec('npm install -g yarn');
 
         exec('yarn --silent');
+
+        $progress->finish();
+
+        alert('Building assets (this may take a while)');
         $this->option('progress')
-            ? system('yarn build:production --progress')
-            : system('yarn build:production');
+            ? exec('yarn build:production --progress')
+            : exec('yarn build:production');
     }
 
     private function isRHEL(): bool

@@ -4,6 +4,7 @@ namespace Wemx\Utils;
 
 use Illuminate\Support\ServiceProvider;
 use Wemx\Utils\Commands\BuildCommand;
+use Wemx\Utils\Commands\UpdateCommand;
 
 class CommandsServiceProvider extends ServiceProvider
 {
@@ -11,6 +12,7 @@ class CommandsServiceProvider extends ServiceProvider
     {
         $this->commands([
             BuildCommand::class,
+            UpdateCommand::class,
         ]);
     }
 }

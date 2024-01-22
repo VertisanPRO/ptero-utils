@@ -124,7 +124,7 @@ class UpdateCommand extends Command
         $version = $this->option('utils-version');
         spin(
             fn() => exec('composer require -n -q wemx/utils' . ($version ? " {$version}" : '')),
-            'Installing wemx/utils back'
+            'Installing <fg=green>wemx/utils</> back'
         );
 
         $progress->advance();
@@ -157,7 +157,7 @@ class UpdateCommand extends Command
 
         if (!$this->option('force')) {
             $confirm = confirm(
-                label: 'Would you like to keep <fg=green>wemx/utils</><fg=blue>?</>',
+                label: 'Would you like to keep <fg=green>wemx/utils</>?',
                 default: true,
             );
 

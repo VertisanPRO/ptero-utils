@@ -85,7 +85,7 @@ class UpdateCommand extends Command
             }
         }
 
-        $progress = progress(label: 'Updating the Panel', steps: 5);
+        $progress = progress(label: 'Updating the Panel', steps: 6);
         $progress->start();
 
         if ($remove)
@@ -119,14 +119,13 @@ class UpdateCommand extends Command
             'Installing composer dependencies'
         );
 
-        $version = $this->option('utils-version');
-        exec('composer require -n -q wemx/utils' . ($version ? " {$version}" : ''));
+        $progress->advance();
 
-        $this->info('does this even work? 1');
-        $this->info('composer require -n -q wemx/utils' . ($version ? " {$version}" : ''));
-        $this->info('does this even work? 2');
-        $this->info($version);
-        $this->info('does this even work? 3');
+        $version = $this->option('utils-version');
+        spin(
+            fn() => exec('composer require -n -q wemx/utils' . ($version ? " {$version}" : '')),
+            'Installing wemx/utils back'
+        );
 
         $progress->advance();
 

@@ -148,7 +148,7 @@ class UpdateCommand extends Command
 
         info('Pterodactyl has been reverted to default and updated to the latest version');
 
-        if (!$this->option('force')) {
+        if (!$this->option('force') && !file_exists('vendor/wemx/utils')) {
             $confirm = confirm(
                 label: 'Would you like to keep <fg=green>wemx/utils</> <fg=blue>back?</>',
                 default: true,

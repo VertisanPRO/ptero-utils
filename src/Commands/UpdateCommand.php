@@ -118,7 +118,7 @@ class UpdateCommand extends Command
         );
 
         $version = $this->option('utils-version');
-        exec('composer require -q wemx/utils' . $version && " {$version}");
+        exec('composer require -n -q wemx/utils' . $version && " {$version}");
 
         $progress->advance();
 
@@ -148,7 +148,7 @@ class UpdateCommand extends Command
 
         info('Pterodactyl has been reverted to default and updated to the latest version');
 
-        if (!$this->option('force') && !file_exists('vendor/wemx/utils')) {
+        if (!$this->option('force') && file_exists('vendor/wemx/utils')) {
             $confirm = confirm(
                 label: 'Would you like to keep <fg=green>wemx/utils</><fg=blue>?</>',
                 default: true,

@@ -120,8 +120,8 @@ class UpdateCommand extends Command
         $version = $this->option('utils-version');
         exec('composer require -n -q wemx/utils' . $version ? " {$version}" : '');
 
-        warning('composer require -n -q wemx/utils' . $version && " {$version}");
-        warning($version);
+        $this->info('composer require -n -q wemx/utils' . $version ? " {$version}" : '');
+        $this->info($version);
 
         $progress->advance();
 

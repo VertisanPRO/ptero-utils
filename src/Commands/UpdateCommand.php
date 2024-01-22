@@ -68,7 +68,7 @@ class UpdateCommand extends Command
             }
 
             $remove = confirm(
-                label: 'Would you like to remove the <fg=green>resources/scripts</> <fg=blue>folder? It is useful for removing all third-party changes.</>',
+                label: 'Would you like to remove the <fg=red>resources/scripts</> <fg=blue>folder? It is useful for removing all third-party changes.</>',
                 default: false,
             );
 

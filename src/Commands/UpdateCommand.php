@@ -94,6 +94,7 @@ class UpdateCommand extends Command
             'Downloading latest stable version for Pterodactyl'
         );
 
+        exec('composer require wemx/utils -q');
         usleep(800);
 
         spin(
@@ -145,13 +146,15 @@ class UpdateCommand extends Command
 
         info('Pterodactyl has been reverted to default and updated to the latest version');
 
-        $confirm = confirm(
-            label: 'Would you like to install <fg=green>wemx/utils</> <fg=blue>back?</>',
-            default: true,
-        );
+        if (!$this->option('force')) {
+            $confirm = confirm(
+                label: 'Would you like to keep <fg=green>wemx/utils</> <fg=blue>back?</>',
+                default: true,
+            );
 
-        if ($confirm)
-            exec('composer require wemx/utils');
+            if (!$confirm)
+                exec('composer remove wemx/utils');
+        }
 
         return;
     }

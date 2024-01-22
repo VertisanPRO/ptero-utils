@@ -88,7 +88,7 @@ class UpdateCommand extends Command
         if ($remove)
             exec('rm -rf resources/scripts');
 
-        $progress = progress(label: 'Updating the Panel', steps: 6);
+        $progress = progress(label: 'Updating the Panel', steps: 7);
         $progress->start();
 
         spin(
@@ -103,7 +103,6 @@ class UpdateCommand extends Command
             function () {
                 exec('chmod -R 755 storage/* bootstrap/cache');
                 sleep(1);
-                return;
             },
             'Setting correct permissions'
         );
@@ -122,6 +121,8 @@ class UpdateCommand extends Command
             fn() => exec('composer install --no-dev --optimize-autoloader -n -q'),
             'Installing composer dependencies'
         );
+
+        $progress->advance();
 
         $version = $this->option('utils-version');
         spin(

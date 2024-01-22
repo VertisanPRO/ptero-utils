@@ -14,4 +14,4 @@ composer require wemx/utils
 ## Credits
 
 - [PadowYT2](https://github.com/PadowYT2)
-- [All Contributors](../../contributors)
+- [All Contributors](/contributors)

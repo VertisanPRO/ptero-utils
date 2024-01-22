@@ -100,7 +100,11 @@ class UpdateCommand extends Command
         $progress->advance();
 
         spin(
-            fn() => exec('chmod -R 755 storage/* bootstrap/cache'),
+            function () {
+                exec('chmod -R 755 storage/* bootstrap/cache');
+                usleep(800);
+                return;
+            },
             'Setting correct permissions'
         );
 
@@ -165,7 +169,7 @@ class UpdateCommand extends Command
                     fn() => exec('composer remove -n -q wemx/utils'),
                     'Removing <fg=green>wemx/utils</>'
                 );
-                $this->alert('<fg=green>wemx/utils</> was successfully removed');
+                $this->line('<fg=green>wemx/utils</> was successfully removed');
             }
         }
 
